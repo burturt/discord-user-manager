@@ -67,10 +67,10 @@ In addition to the regular dependencies, the **Discord User Manager** also has t
 
 **Discord User Manager** requires [Node.js] (version 12 or higher) in order to be installed.
 
-Either download the source from https://github.com/burturt/discord-user-manager-v2 or install it from the command line:
+Either download the source from https://github.com/burturt/discord-user-manager or install it from the command line:
 
 ```bash
-git clone https://github.com/burturt/discord-user-manager-v2.git
+git clone https://github.com/burturt/discord-user-manager.git
 ```
 
 Make sure the current working directory is set to the directory where the repo was cloned to:
