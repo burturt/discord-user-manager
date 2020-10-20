@@ -4,4 +4,8 @@ block content
   main.flex-shrink-0(role="main")
     .container(style="padding-top:60px")
       h1.mt-5 Privacy &amp; Cookie Policy
+      if ( !privacyPolicy )
+        h2 #[mark Scroll down to the bottom to agree]
       include privacy-policy-content.pug
+  if ( !privacyPolicy )
+    a.btn.btn-info(href="/?privacyPolicy=true" aria-label="Accept") Accept Privacy Policy

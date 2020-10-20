@@ -5,43 +5,49 @@ block content
     section.jumbotron.jumbotron-fluid.text-center(style="padding: 60px 30px;")
       .container
         h1.jumbotron-heading Discord User Manager
-        p.lead.text-muted The Discord User Manager allows you to manage the users that can join your discord server.
+        p.lead.text-muted Login here to gain access to the community Discord.
 
     //- Compute the current step.
-    //- 1. The user hasn't accepted the code of conduct yet,
+    //- 1. The user hasn't accepted the code of conduct or privacy policy yet,
     //- 2. The user has accepted the code of conduct, but isn't logged in.
     //- 3. The user has accepted the code of conduct, is logged in, but hasn't linked their Discord account.
     //- 4. All steps are complete!
-    - const step = user && user.discordId ? 4 : user ? 3 : codeOfConduct ? 2 : 1;
+    - const step = user && user.discordId ? 4 : user ? 3 : codeOfConduct && privacyPolicy ? 2 : 1;
     .py-5
       .container
         .card-deck
           .card
             img.card-img-top(src="/images/code-of-conduct.png" alt="Code of Conduct Image")
             .card-body.d-flex.flex-column
-              h5.card-title Step 1
               if step > 1
-                p.card-text Great, you've accepted the Code of Conduct!
+                h5.card-title Step 1 and 2
+                p.card-text Great, you've accepted the Code of Conduct and Privacy Policy!
                 button.btn.btn-primary.btn-block.mt-auto(disabled type="button" aria-disabled="true") Code of Conduct
-              else
+              else if !codeOfConduct
+                h5.card-title Step 1
                 p.card-text Accept the Code of Conduct.
-                button.btn.btn-primary.btn-block.mt-auto(type="button" data-toggle="modal" data-target="#codeOfConductModal") Code of Conduct
+                //button.btn.btn-primary.btn-block.mt-auto(type="button" data-toggle="modal" data-target="#codeOfConductModal") Code of Conduct
+                a.btn.btn-primary.btn-block.mt-auto(href="/code-of-conduct") Code of Conduct
+              else 
+                h5.card-title Step 2
+                p.card-text Accept the Privacy Policy
+                a.btn.btn-primary.btn-block.mt-auto(href="/privacy-policy") Privacy Policy
           .card(class= step < 2 && "text-muted")
             img.card-img-top(src= ( user && user.img ) || "/images/login.png" alt="User Image")
             .card-body.d-flex.flex-column
-              h5.card-title Step 2
+              h5.card-title Step 3
               if step > 2
                 p.card-text Great, you're are logged in as 
                   strong #{user.name}
                   | !
                 a.btn.btn-primary.btn-block.mt-auto(href="/logout") Log out
               else
-                p.card-text Log in using one of the OAuth providers.
+                p.card-text Verify your identify using your School Google account.
                 a.btn.btn-primary.btn-block.mt-auto(role="button" href="/login" class= ( step < 2 && "disabled" ) ) Log in
           .card(class= step < 3 && "text-muted")
             img.card-img-top(src= (user && user.discordAvatar ) || "/images/discord.png" alt="Discord Avatar")
             .card-body.d-flex.flex-column
-              h5.card-title Step 3
+              h5.card-title Step 4
               if step > 3
                 p.card-text Great, you're logged in to Discord as 
                   strong
@@ -50,7 +56,7 @@ block content
                   a.btn.btn-primary.btn-block(href= welcomeChannelURL target="_blank") Open Discord
                   a.btn.btn-secondary.btn-block(href="/discord/logout") Unlink Discord
               else
-                p.card-text Log in to Discord.
+                p.card-text Link your Discord account. You may use any discord account you'd like; it does not have to use your school email. You may unlink at any time.
                 a.btn.btn-primary.btn-block.mt-auto(href="/discord" class= ( step < 3 && "disabled")) Discord Log in
 
   .modal.fade#codeOfConductModal(tabindex="-1" role="dialog" aria-labelledby="codeOfConductModalTitle" aria-hidden="true")
@@ -63,7 +69,7 @@ block content
         .modal-body
           include code-of-conduct-content.pug
         .modal-footer
-          a.btn.btn-success.btn-block(role="button" href="/?codeOfConduct=true") Agree
+          a.btn.btn-success.btn-block(role="button" href="/?codeOfConduct=true") Agree to Code of Conduct
 
   //- Discord login error alert.
   if ( discordLoginError )
@@ -74,15 +80,16 @@ block content
       p= discordLoginError
 
   //- Privacy Policy alert.
-  if ( !privacyPolicy )
-    .alert.alert-info.alert-top.alert-dismissible.fade.show(role="alert")
-      button.close(type="button" data-dismiss="alert" aria-label="Close")
-        span(aria-hidden="true") &times;
-      h4.alert-heading Privacy Policy.
-      p If you login to this website, your account information is stored in a database. The data collection is required for the functioning purpose of this website. 
-        | By accepting the privacy policy, you agree to the collection of account information and the use of cookies.
-        | For more information, please refer to the full 
-        a(href="/privacy-policy") Privacy Policy.
-
-      a.btn.btn-info(href="/?privacyPolicy=true" aria-label="Accept") Accept
+  //if ( !privacyPolicy )
+  //  .alert.alert-info.alert-top.alert-dismissible.fade.show(role="alert")
+  //    button.close(type="button" data-dismiss="alert" aria-label="Close")
+  //      span(aria-hidden="true") &times;
+  //    h4.alert-heading Privacy Policy.
+  //    p If you login to this website, your account information is stored in a database. The data collection is required for the functioning purpose of this website. 
+  //      | By accepting the privacy policy, you agree to the collection of account information and the use of cookies.
+  //      | For more information, please refer to the full 
+  //      a(href="/privacy-policy") Privacy Policy. 
+  //      | You must agree to this policy to be able to login.
+  //
+  //    a.btn.btn-info(href="/?privacyPolicy=true" aria-label="Accept") Accept
 

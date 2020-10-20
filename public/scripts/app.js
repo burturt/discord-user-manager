@@ -143,6 +143,6 @@ $(document).ready(function () {
   // Automatically close the alert after a few seconds.
   setTimeout(function () {
     $(".alert").alert("close");
-  }, 5000);
+  }, 30000);
   //#endregion
 });

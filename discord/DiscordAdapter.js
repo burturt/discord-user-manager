@@ -81,6 +81,8 @@ class DiscordAdapter extends EventEmitter {
       this.client.reactions.set(reaction.name, reaction);
     }
 
+    this.client.user.setActivity(process.env.DISCORD_STATUS, { type: 'WATCHING' });
+
     debug("Ready!");
     // Emit the ready event (usefull for setup of test frameworks like Jest)
     this.emit("ready");
@@ -510,13 +512,11 @@ class DiscordAdapter extends EventEmitter {
    * @returns {Promise<Discord.GuildMember>} The GuildMember that was added to the server.
    * @throws If the userResolvable could not be resolved to a User or a GuildMember or if the nickname of the user couldn't be updated.
    */
-  async addUser(userResolvable, nick, accessToken) {
+  async addUser(userResolvable, nick, accessToken, Student) {
     const guild = this.getGuild();
     if (!guild.available) {
       throw new Error("Guild is currently not available.");
     }
-
-    const defaultRole = this.resolveRole(config.defaultRole) || guild.defaultRole;
 
     // First check if the user is already a member of the guild.
     let guildMember = await this.resolveGuildMember(userResolvable);
@@ -524,7 +524,7 @@ class DiscordAdapter extends EventEmitter {
     if (guildMember) {
       debug(`User ${guildMember.user.tag} is already a member of the guild.`);
       // Just update the nickname.
-      this.setNickname(userResolvable, nick);
+      throw new Error(`Already on Discord Server`);
     } else {
       // Discord user not a member of the guild yet.
       const discordUser = await this.resolveUser(userResolvable);
@@ -534,18 +534,89 @@ class DiscordAdapter extends EventEmitter {
 
       debug(`Adding user ${discordUser.tag} to the guild.`);
 
-      // Add the member and set the nickname.
-      try {
+      const memberRole = this.resolveRole("member");
+
+      const spawnerChannel = await this.resolveChannel("spawner");
+
+    }
+
+      const memberRole = this.resolveRole("member");
+      const spawnerChannel = await this.resolveChannel("spawner");
+      const discordUser = await this.resolveUser(userResolvable);
+
+
+
+    // Different roles for different usernames: student --> member + student, teacher --> member + possibly-teacher, others --> non-student
+    if (Student.endsWith("@stu.RADACTED")) {
+      debug("Adding regular student");
+        const defaultRole = this.resolveRole(config.defaultRole) || guild.defaultRole;
+          try {
+        guildMember = await guild.addMember(discordUser, {
+          accessToken,
+          nick,
+          roles: [defaultRole.id, memberRole.id],
+        });
+
+       try {
+          await spawnerChannel.send(`Welcome ${discordUser} to the server! You have been automatically verified as a student.`
+           )
+        } catch (err) {
+          debug(`An error occured while sending message in the guild: ${err}`)
+        }
+
+      } catch (err) {
+        debug(`An error occured while adding user to the guild: ${err}`);
+        throw new Error(err);
+      }
+    } else if (Student.endsWith("@RADACTED")) {
+      debug("Adding staff pending");
+    const defaultRole = this.resolveRole("probably-teacher");
+          try {
+        guildMember = await guild.addMember(discordUser, {
+          accessToken,
+          nick,
+          roles: [defaultRole.id, memberRole.id],
+        });
+
+
+        try {
+          await spawnerChannel.send(`Welcome ${discordUser} to the server! You have been automatically verified as a member. `
+            + "It appears you may be admin or staff and not a student. If so, please open a ticket in <#767187188181368864> for manual verification."
+           )
+        } catch (err) {
+          debug(`An error occured while sending message in the guild: ${err}`)
+        }
+
+
+      } catch (err) {
+        debug(`An error occured while adding user to the guild: ${err}`);
+        throw new Error(err);
+      }
+    } else {
+      debug("adding non-student");
+    const defaultRole = this.resolveRole("non-student");
+          try {
         guildMember = await guild.addMember(discordUser, {
           accessToken,
           nick,
           roles: [defaultRole.id],
         });
+
+        try {
+          await spawnerChannel.send(`${discordUser}, it appears you are a manually generated user and did not login with google. `
+            + "If you are a student, teacher, or staff with a google @RADACTED or @RADACTED account, please unlink and login using the google account. "
+            + "If this is intentional and need manual verification or are having trouble logging in using your regular user that you logged in manually, "
+            + "please open a ticket in <#767187188181368864>.")
+        } catch (err) {
+          debug(`An error occured while sending message in the guild: ${err}`)
+        }
+
       } catch (err) {
         debug(`An error occured while adding user to the guild: ${err}`);
         throw new Error(err);
       }
     }
+    
 
     return guildMember;
   }

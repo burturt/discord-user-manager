@@ -7,7 +7,6 @@ module.exports = (sequelize, DataTypes) => {
       password: { type: DataTypes.STRING },
       img: { type: DataTypes.STRING },
       name: { type: DataTypes.STRING },
-      azureId: { type: DataTypes.STRING, unique: true },
       googleId: { type: DataTypes.STRING, unique: true },
       discordId: { type: DataTypes.STRING, unique: true },
       discordUsername: { type: DataTypes.STRING },
@@ -15,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       discordAvatar: { type: DataTypes.STRING },
       isAdmin: { type: DataTypes.BOOLEAN, defaultValue: false },
       isBanned: { type: DataTypes.BOOLEAN, defaultValue: false },
+      banReason: {type: DataTypes.STRING }
     },
     {}
   );

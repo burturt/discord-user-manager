@@ -6,20 +6,17 @@ block append head
 block content
   main.flex-shrink-0(role="main")
     .container(style="padding-top:60px")
-      .card.my-5.mx-auto.login(style="max-width:350px;")
+      .card.my-5.mx-auto.login(style="max-width:650px;")
         form.form-signin.text-center(action="/login" method="post")
           .card-body.text-center
             h1.h3.mb-3.font-weight-normal Please sign in
-            .mb-3.mx-auto(style="max-width: 300px;")
+            .mb-3.mx-auto(style="max-width: 600px;")
               a.btn.btn-primary.btn-lg.btn-block.btn-social.btn-google(role="button" href="/google") 
                 img(src="/images/g-logo.png" style="width: 48px;")
                 | Sign in with Google
-            .mb-3.mx-auto(style="max-width: 300px;")
-              a(href="/azure")
-                img(src="images/ms-symbollockup_signin_light.svg" style="width: 100%; min-width: 200px;")
 
             .division.mb-3
-              span.px-3 external login
+              span.px-3 Manual Login (students, teachers, and staff, please use above button instead)
 
             .form-group
               label.sr-only(for="username") Username
@@ -32,4 +29,5 @@ block content
               if passwordError
                 .invalid-feedback= passwordError
             button.btn.btn-primary.btn-lg.btn-block(type="submit") Log in
+            p By signing in or signing up, you agree to abide by the #[a(href="/code-of-conduct") Code of Conduct] and agree to your data being collected as outlinted in the #[a(href="/privacy-policy") Privacy Policy.] 
 

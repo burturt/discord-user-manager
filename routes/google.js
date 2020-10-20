@@ -39,7 +39,7 @@ passport.use(
           user
             .update({
               // Google users get a random password.
-              password: user.password || bcrypt.hashSync(crypto.randomBytes(50).toString("base64"), 10),
+              password: user.password || bcrypt.hashSync(crypto.randomBytes(50).toString("base64"), 12),
               googleId: profile.id,
               img: profile.photos[0].value,
               name: profile.displayName,

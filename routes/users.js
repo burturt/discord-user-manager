@@ -155,7 +155,7 @@ router.post("/add", async (req, res) => {
   user = await models.User.create({
     username,
     name,
-    password: bcrypt.hashSync(password, 10),
+    password: bcrypt.hashSync(password, 12),
     isAdmin,
   });
 
@@ -185,7 +185,7 @@ router.post("/edit/:id", async (req, res) => {
   const username = req.body.username;
   const name = req.body.name;
   // Don't replace the password if no password was provided.
-  const password = req.body.password ? bcrypt.hashSync(req.body.password, 10) : undefined;
+  const password = req.body.password ? bcrypt.hashSync(req.body.password, 12) : undefined;
   const isAdmin = req.body.isAdmin ? true : false;
   //  const discordId = req.body.discordId;
 

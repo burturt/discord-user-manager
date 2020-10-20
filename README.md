@@ -4,7 +4,15 @@
 
 # Discord User Manager
 
-The **Discord User Manager** allows users to join your [Discord] server by authenticating with an [OAuth 2.0] provider such as [Google] or [Microsoft]. This is useful if your school or work is using [G Suite] from [Google] or [Office 365] from [Microsoft] and you want to restrict the members of your [Discord] server to the members of your organization or domain. This allows you to have more control over who is able to join your Discord server without having to manage Discord invites.
+## DISCLAIMER: THIS APPLICATION MAY STORE SENSITIVE INFORMATION ABOUT USERS. YOU ARE NOT ALLOWED TO USE THIS WITHOUT PROPER ENCRYPTION OF DATA WHILE AT REST AND PROPER SECURING OF SERVERS FROM UNAUTHORIZED ACCESS AS PER DISCORD'S DEVELOPER TERMS OF SERVICE. IF YOU DO NOT UNDERSTAND WHAT THIS IS OR HOW TO DO IT, DO NOT USE THIS SOFTWARE. YOU WILL NEED TO SET UP A REVERSE PROXY TO USE HTTPS (I do not support https at the application level).
+
+## Licensing: 
+The original software was licensed under the MIT license and can be found at https://github.com/jpvanoosten/discord-user-manager. All modifications made in this repository and not pull requested into the upstream fork is to be licensed under the GNU Affero General Public License v3.0. Below are the summarized restrictions of the license (this image is from a website licensed under the Creative Commons Attribution 3.0 Unported License - https://choosealicense.com/licenses/agpl-3.0/):
+![AGPL v3.0](docs/images/agpl3.png)
+
+The full text of the license can be found at ./LICENSE.
+
+The **Discord User Manager** allows users to join your [Discord] server by authenticating with an [OAuth 2.0] provider aka [Google]. This is useful if your school or work is using [G Suite] from [Google] and you want to restrict the members of your [Discord] server to the members of your organization or domain. This allows you to have more control over who is able to join your Discord server without having to manage Discord invites.
 
 ## Dependencies
 
@@ -57,12 +65,12 @@ In addition to the regular dependencies, the **Discord User Manager** also has t
 
 ## Installation
 
-**Discord User Manager** requires [Node.js] (version 10 or higher) in order to be installed.
+**Discord User Manager** requires [Node.js] (version 12 or higher) in order to be installed.
 
-Either download the source from https://github.com/jpvanoosten/discord-user-manager or install it from the command line:
+Either download the source from https://github.com/burturt/discord-user-manager-v2 or install it from the command line:
 
 ```bash
-git clone https://github.com/jpvanoosten/discord-user-manager.git
+git clone https://github.com/burturt/discord-user-manager-v2.git
 ```
 
 Make sure the current working directory is set to the directory where the repo was cloned to:
@@ -108,6 +116,9 @@ The following table describes the configurable environment varaibles.
 | DISCORD_SERVER_ID      |                                        | The unique identifier for the [Discord] server.                                                                                                                                                       |
 | TEST_USER_DISCORD_ID   |                                        | The unique identifer for a [Discord] user. (Only used for testing).                                                                                                                                   |
 | TEST_USER_ACCESS_TOKEN |                                        | An access token for a [Discord] user. (Only used for testing).                                                                                                                                        |
+
+### Privacy Policy and Code of Conduct
+The Code of Conduct and Privacy Policy are not included. You can find samples ones [here](https://github.com/jpvanoosten/discord-user-manager/blob/master/views/code-of-conduct-content.pug) and [here](https://github.com/jpvanoosten/discord-user-manager/blob/master/views/privacy-policy-content.pug).
 
 ### Auto Configuration
 

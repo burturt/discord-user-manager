@@ -17,7 +17,7 @@ module.exports = {
   description: "List all of the commands or info about a specific command.",
   aliases: ["h", "commands"],
   usage: "[command name]",
-  cooldown: 5,
+  cooldown: 2,
   execute(message, args) {
     const data = [];
     const { commands } = message.client;
@@ -65,6 +65,7 @@ module.exports = {
     }
     if (command.usage) {
       data.push(`**Usage:** \`${prefix}${command.name} ${command.usage}\``);
+      data.push("[] arguments are optional, <> arguments are mandatory");
     }
     if (command.cooldown) {
       data.push(`**Cooldown:** ${command.cooldown} second${command.cooldown !== 1 ? "s" : ""}.`);

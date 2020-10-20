@@ -20,7 +20,6 @@ const indexRouter = require("./routes/index");
 const loginRouter = require("./routes/login");
 const logoutRouter = require("./routes/logout");
 const usersRouter = require("./routes/users");
-const azureRouter = require("./routes/azure");
 const googleRouter = require("./routes/google");
 const discordRouter = require("./routes/discord");
 
@@ -164,7 +163,6 @@ app.use(function (req, res, next) {
 app.use("/", indexRouter);
 app.use("/login", isPrivacyPolicy, isCodeOfConduct, loginRouter);
 app.use("/logout", isAuthenticated, logoutRouter);
-app.use("/azure", isPrivacyPolicy, isCodeOfConduct, azureRouter);
 app.use("/google", isPrivacyPolicy, isCodeOfConduct, googleRouter);
 app.use("/discord", isPrivacyPolicy, isCodeOfConduct, isAuthenticated, discordRouter);
 
