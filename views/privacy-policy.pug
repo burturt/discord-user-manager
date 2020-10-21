@@ -8,4 +8,8 @@ block content
         h2 #[mark Scroll down to the bottom to agree]
       include privacy-policy-content.pug
   if ( !privacyPolicy )
-    a.btn.btn-info(href="/?privacyPolicy=true" aria-label="Accept") Accept Privacy Policy
+    div(class="text-center")
+      form(action="/", method="post")
+        input(type="hidden", name="_csrf", value=`${csrfToken}`)
+        input(type="hidden", name="privacyPolicy", value=1)
+        button(type='submit', aria-label="Accept", class="btn btn-info") Accept Privacy Policy

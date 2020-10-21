@@ -7,3 +7,4 @@ yarn.lock
 /tmp/
 /views/*-content.pug
 .DS_Store
+.idea

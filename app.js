@@ -10,6 +10,11 @@ const session = require("express-session");
 const passport = require("passport");
 const path = require("path");
 const settings = require("./settings");
+const csurf = require('csurf');
+
+const csrfMiddleware = csurf({
+  cookie: true
+});
 
 // initalize Sequelize with session store
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
@@ -129,6 +134,7 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(csrfMiddleware);
 app.use(
   session({
     name: "sid", // This is the name of the cookie that is used to store the session id.
@@ -157,6 +163,7 @@ app.use(function (req, res, next) {
   res.locals.privacyPolicy = req.query.privacyPolicy === "true" || req.cookies.privacyPolicy === "true";
   res.locals.path = req.path;
   res.locals.user = req.user;
+  app.locals.csrfToken = req.csrfToken();
   next();
 });
 

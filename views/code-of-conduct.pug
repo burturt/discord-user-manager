@@ -8,4 +8,8 @@ block content
         h2 #[mark Scroll down to the bottom to agree]
       include code-of-conduct-content.pug
   if (!codeOfConduct )
-    a.btn.btn-info(href="/?codeOfConduct=true" aria-label="Accept") Accept Code of Conduct
+    div(class="text-center")
+      form(action="/", method="post")
+        input(type="hidden", name="_csrf", value=`${csrfToken}`)
+        input(type="hidden", name="codeOfConduct", value=1)
+        button(type='submit', aria-label="Accept", class="btn btn-info") Accept Code of Conduct
