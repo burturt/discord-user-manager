@@ -63,7 +63,10 @@ block content
         .modal-body
           include code-of-conduct-content.pug
         .modal-footer
-          a.btn.btn-success.btn-block(role="button" href="/?codeOfConduct=true") Agree
+          form(action="/", method="post")
+            input(type="hidden", name="_csrf", value=`${csrfToken}`)
+            input(type="hidden", name="codeOfConduct", value=1)
+            button(type='submit', aria-label="Accept", class="btn btn-success btn-block") Agree
 
   //- Discord login error alert.
   if ( discordLoginError )
@@ -84,5 +87,8 @@ block content
         | For more information, please refer to the full 
         a(href="/privacy-policy") Privacy Policy.
 
-      a.btn.btn-info(href="/?privacyPolicy=true" aria-label="Accept") Accept
+      form(action="/", method="post")
+        input(type="hidden", name="_csrf", value=`${csrfToken}`)
+        input(type="hidden", name="privacyPolicy", value=1)
+        button(type='submit', aria-label="Accept", class="btn btn-info") Accept
 

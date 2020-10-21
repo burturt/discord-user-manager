@@ -5,8 +5,28 @@ const express = require("express");
 const DiscordAdapter = require("../discord/DiscordAdapter");
 const router = express.Router();
 
+/* POST home page */
+router.post("/", async (req, res) => {
+  if (req.body.codeOfConduct) {
+    res.cookie("codeOfConduct", true, {
+      maxAge: 3.154e10, // 1 year.
+    });
+    res.redirect(`/`);
+  }
+
+  if (req.body.privacyPolicy) {
+    res.cookie("privacyPolicy", true, {
+      maxAge: 3.154e10, // 1 year.
+    });
+    res.redirect(`/`);
+  }
+
+  res.render("An unexpected error occurred. Please reload");
+})
+
 /* GET home page. */
 router.get("/", async (req, res) => {
+  /*
   if (req.query.codeOfConduct === "true") {
     res.cookie("codeOfConduct", req.query.codeOfConduct, {
       maxAge: 3.154e10, // 1 year.
@@ -18,6 +38,8 @@ router.get("/", async (req, res) => {
       maxAge: 3.154e10, // 1 year.
     });
   }
+
+  */
 
   const flashMessages = req.flash("info")[0];
 
