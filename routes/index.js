@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
     res.redirect(`/`);
   }
 
-  res.render("An unexpected error occurred. Please reload");
+  res.redirect("/?error=postNoPayload");
 })
 
 /* GET home page. */
@@ -40,6 +40,24 @@ router.get("/", async (req, res) => {
   }
 
   */
+  if (req.query.error === "postNoPayload") {
+    req.flash("info", {
+      errorAlert: `An unexpected error occurred - Empty POST request. Please contact the webmaster if this continues to occur.`,
+    });
+  }
+
+  if (req.query.error === "CSRFInvalid") {
+    req.flash("info", {
+      errorAlert: `An unexpected error occurred - Invalid CSRF token. Please contact the webmaster if this continues to occur.`,
+    });
+  }
+
+  if (req.query.error === "InvalidHTTPMethod") {
+    req.flash("info", {
+      errorAlert: `An unexpected error occurred - Invalid HTTP Method. Please contact the webmaster if this continues to occur.`,
+    });
+  }
+
 
   const flashMessages = req.flash("info")[0];
 

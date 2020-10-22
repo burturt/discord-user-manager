@@ -88,7 +88,7 @@ router.get("/callback", (req, res, next) => {
 });
 
 /* Unlink Discord account from user login */
-router.get("/logout", async (req, res) => {
+router.post("/logout", async (req, res) => {
   if (!req.user) {
     // User is not logged in.
     debug("User not logged in.");
@@ -110,6 +110,10 @@ router.get("/logout", async (req, res) => {
 
   // Redirect to the main page.
   res.redirect("/");
+});
+
+router.get("/unlink", (req, res, next) => {
+  res.redirect("/?error=InvalidHTTPMethod")
 });
 
 module.exports = router;
