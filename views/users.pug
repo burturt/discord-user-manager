@@ -244,6 +244,7 @@ block content
               .col-sm-9
                 .form-check
                   input.form-check-input(type="checkbox" name="isAdmin")
+              input(type="hidden", name="_csrf", value=`${csrfToken}`)
           .modal-footer
             button.btn.btn-secondary(type="button" data-dismiss="modal") Cancel
             button.btn.btn-primary(type="submit") Save
@@ -281,6 +282,8 @@ block content
                 .col-sm-9
                   .form-check
                     input.form-check-input(type="checkbox" name="isAdmin")
+                input(type="hidden", name="_csrf", value=`${csrfToken}`)
           .modal-footer
             button.btn.btn-secondary(type="button" data-dismiss="modal") Cancel
+            input(type="hidden", name="_csrf", value=`${csrfToken}`)
             button.btn.btn-danger(type="submit") Delete

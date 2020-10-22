@@ -30,7 +30,9 @@ header.fixed-top
             )
               i.fa.fa-plus
               |  Add user
-          a.btn.btn-primary(role="button" href="/logout") Log out
+          form(action="/logout", method="post")
+            input(type="hidden", name="_csrf", value=`${csrfToken}`)
+            button(type='submit', aria-label="Accept", class="btn btn-primary btn-block mt-auto") Log out
         else
           a.btn.btn-primary(role="button" href="/login") Log in
 
@@ -65,6 +67,7 @@ if user && user.isAdmin
               .col-sm-9
                 .form-check
                   input.form-check-input#isAdmin(type="checkbox" name="isAdmin")
+              input(type="hidden", name="_csrf", value=`${csrfToken}`)
           .modal-footer
             button.btn.btn-secondary(type="button" data-dismiss="modal") Cancel
             button.btn.btn-success(type="submit")

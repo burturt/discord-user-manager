@@ -181,6 +181,14 @@ app.use(function (req, res, next) {
   next(createError(404));
 });
 
+app.use(function (err, req, res, next) {
+  if (err.code !== 'EBADCSRFTOKEN') return next(err)
+
+  // handle CSRF token errors here
+  res.status(403)
+  res.redirect("/?error=CSRFInvalid")
+})
+
 // error handler
 app.use(function (err, req, res) {
   // set locals, only providing error in development
