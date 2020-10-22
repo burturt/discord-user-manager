@@ -7,9 +7,7 @@
 ## DISCLAIMER: THIS APPLICATION MAY STORE SENSITIVE INFORMATION ABOUT USERS. YOU ARE NOT ALLOWED TO USE THIS WITHOUT PROPER ENCRYPTION OF DATA WHILE AT REST AND PROPER SECURING OF SERVERS FROM UNAUTHORIZED ACCESS AS PER DISCORD'S DEVELOPER TERMS OF SERVICE. IF YOU DO NOT UNDERSTAND WHAT THIS IS OR HOW TO DO IT, DO NOT USE THIS SOFTWARE. YOU WILL NEED TO SET UP A REVERSE PROXY TO USE HTTPS (I do not support https at the application level).
 
 ## Licensing: 
-The original software was licensed under the MIT license and can be found at https://github.com/jpvanoosten/discord-user-manager. All modifications made in this repository and not pull requested into the upstream fork is to be licensed under the GNU Affero General Public License v3.0. Below are the summarized restrictions of the license (this image is from a website licensed under the Creative Commons Attribution 3.0 Unported License - https://choosealicense.com/licenses/agpl-3.0/):
-![AGPL v3.0](docs/images/agpl3.png)
-
+The original software was licensed under the MIT license and can be found at https://github.com/jpvanoosten/discord-user-manager. All modifications made in this repository and not pull requested into the upstream fork is to also be licensed under the MIT license.
 The full text of the license can be found at ./LICENSE.
 
 The **Discord User Manager** allows users to join your [Discord] server by authenticating with an [OAuth 2.0] provider aka [Google]. This is useful if your school or work is using [G Suite] from [Google] and you want to restrict the members of your [Discord] server to the members of your organization or domain. This allows you to have more control over who is able to join your Discord server without having to manage Discord invites.
