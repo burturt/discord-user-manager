@@ -12,16 +12,15 @@ router.post("/", async (req, res) => {
       maxAge: 3.154e10, // 1 year.
     });
     res.redirect(`/`);
-  }
-
-  if (req.body.privacyPolicy) {
+  } else if (req.body.privacyPolicy) {
     res.cookie("privacyPolicy", true, {
       maxAge: 3.154e10, // 1 year.
     });
     res.redirect(`/`);
+  } else {
+    res.redirect("/?error=postNoPayload");
   }
 
-  res.redirect("/?error=postNoPayload");
 })
 
 /* GET home page. */

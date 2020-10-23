@@ -44,6 +44,9 @@ module.exports = {
             banReason: reason
           })
         }).catch((err) => {
+          if (err.toString() === "TypeError: Cannot read property 'update' of null") {
+            return message.reply("That discord user is not linked with any user in the database. Did they manually join the discord server?");
+          }
         debug(`An error occured while banning user: ${err}`);
         return message.reply(`An error occured while banning user in database: ${err}`);
       });

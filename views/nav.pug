@@ -19,7 +19,7 @@ header.fixed-top
         +navItem("/code-of-conduct", "Code of Conduct")
         if user && user.isAdmin
           +navItem("/users", "Users")
-      if codeOfConduct
+      if codeOfConduct && privacyPolicy
         if user
           if user.isAdmin
             button.btn.btn-success.mr-2(
