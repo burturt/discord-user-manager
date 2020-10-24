@@ -48,10 +48,6 @@ router.get("/callback", (req, res, next) => {
       return res.redirect("/");
     }
 
-
-    debug("Discord user succeffully logged in.");
-    debug(profile);
-
     // Update the user's discordId and discordAvatar
     const user = req.user;
 

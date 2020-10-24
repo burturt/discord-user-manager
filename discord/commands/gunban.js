@@ -38,9 +38,6 @@ module.exports = {
         return message.reply(`An error occured while unbanning the user: ${err}`);
       });
 
-       DiscordAdapter.logInfo(`${args[0]} has been unbanned by ${message.author}`);
-       return message.reply(`Successfully unbanned ${args[0]}`);
-
 
   },
 };
