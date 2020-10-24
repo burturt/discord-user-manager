@@ -21,7 +21,8 @@ The **Discord User Manager** is built with JavaScript using [Express] and the [P
 | [bcrypt]                    | ^5.0.0           | Pasword hashing used for logging into local accounts. Passwords for [OAuth] accounts are not stored locally.                    |
 | [connect-flash]             | ^0.1.1           | Used for passing messages between http requests. Flash messages use session storage to persists messages between http requests. |
 | [connect-session-sequelize] | ^6.0.0           | SQL Session store using [Sequelize] as a storage backend.                                                                       |
-| [cookie-parser]             | ~1.4.4           | Parse the `Cookie` header and populate `req.cookies` property with an object keyed by the cookie name.                          |
+| [cookie-parser]             | ~1.4.4           | Parse the `Cookie` header and populate `req.cookies` property with an object keyed by the cookie name.                     |
+| [csurf]                     | ^1.11.0          | Add CSRF protection                                                                                                    |
 | [debug]                     | ~2.6.9           | A JavaScript debugging utility.                                                                                                 |
 | [discord.js]                | ^12.3.1          | A powerful library for interacting with the Discord API.                                                                        |
 | [dotenv]                    | ^8.1.0           | Loads environment variables from a `.env` file into the `process.env` global variable.                                          |
@@ -328,6 +329,9 @@ Enabling the **Developer Mode** option will allow you to copy the server ID, use
 - Right-click on the server icon on the left of the screen and select the **Copy ID** option in the pop-up menu that appears.
 - Paste the server ID into the value of the `DISCORD_SERVER_ID` in the `.env` file.
 
+## Add your code of conduct and privacy policy
+Your code of conduct and privacy policy pug files should go to /views/code-of-conduct.pug and /views/privacy-policy.pug. Example files can be found in /views, remove the .example extension to use.
+
 ## Start the Discord User Manager
 
 To start the **Discord User Manager** application, open a terminal and navigate to the root folder where you cloned the discord-user-manager git repository and run the following command:
@@ -551,6 +555,7 @@ Some common reasons why some of the tests fail:
 [connect-session-sequelize]: https://www.npmjs.com/package/connect-session-sequelize
 [sequelize]: https://sequelize.org/
 [cookie-parser]: https://www.npmjs.com/package/cookie-parser
+[csurf]: https://www.npmjs.com/package/csurf
 [debug]: https://www.npmjs.com/package/debug
 [discord.js]: https://github.com/discordjs/discord.js
 [dotenv]: https://www.npmjs.com/package/dotenv
