@@ -534,89 +534,98 @@ class DiscordAdapter extends EventEmitter {
 
       debug(`Adding user ${discordUser.tag} to the guild.`);
 
-      const memberRole = this.resolveRole("member");
 
-      const spawnerChannel = await this.resolveChannel("spawner");
 
     }
 
-      const memberRole = this.resolveRole("member");
-      const spawnerChannel = await this.resolveChannel("spawner");
-      const discordUser = await this.resolveUser(userResolvable);
+    const memberRole = this.resolveRole(process.env.DISCORD_MEMBER_ROLE);
+
+    const spawnerChannel = await this.resolveChannel(process.env.DISCORD_SPAWNER_CHANNEL_NAME);
+
+    const discordUser = await this.resolveUser(userResolvable);
 
 
 
     // Different roles for different usernames: student --> member + student, teacher --> member + possibly-teacher, others --> non-student
-    if (Student.endsWith("@stu.RADACTED")) {
+    if (Student.endsWith("@" + process.env.DISCORD_STUDENT_EMAIL_DOMAIN)) {
       debug("Adding regular student");
-        const defaultRole = this.resolveRole(config.defaultRole) || guild.defaultRole;
+        const studentRole = this.resolveRole(process.env.DISCORD_STUDENT_ROLE) || guild.defaultRole;
           try {
         guildMember = await guild.addMember(discordUser, {
           accessToken,
           nick,
-          roles: [defaultRole.id, memberRole.id],
+          roles: [studentRole.id, memberRole.id],
         });
 
        try {
           await spawnerChannel.send(`Welcome ${discordUser} to the server! You have been automatically verified as a student.`
            )
         } catch (err) {
-          debug(`An error occured while sending message in the guild: ${err}`)
+          debug(`An error occurred while sending message in the guild: ${err}`)
         }
 
       } catch (err) {
-        debug(`An error occured while adding user to the guild: ${err}`);
+        debug(`An error occurred while adding user to the guild: ${err}`);
         throw new Error(err);
       }
-    } else if (Student.endsWith("@RADACTED")) {
+
+
+    } else if (Student.endsWith("@" + process.env.DISCORD_NONSTUDENT_EMAIL_DOMAIN)) {
       debug("Adding staff pending");
-    const defaultRole = this.resolveRole("probably-teacher");
+      const nonStudentRole = this.resolveRole(process.env.DISCORD_NONSTUDENT_ROLE);
           try {
         guildMember = await guild.addMember(discordUser, {
           accessToken,
           nick,
-          roles: [defaultRole.id, memberRole.id],
+          roles: [nonStudentRole.id, memberRole.id],
         });
-
 
         try {
           await spawnerChannel.send(`Welcome ${discordUser} to the server! You have been automatically verified as a member. `
-            + "It appears you may be admin or staff and not a student. If so, please open a ticket in <#767187188181368864> for manual verification."
+            + `It appears you are part of the organization but are not a student, and have been given the ${nonStudentRole.name} role instead.`
            )
         } catch (err) {
-          debug(`An error occured while sending message in the guild: ${err}`)
+          debug(`An error occurred while sending message in the guild: ${err}`)
         }
 
-
       } catch (err) {
-        debug(`An error occured while adding user to the guild: ${err}`);
+        debug(`An error occurred while adding user to the guild: ${err}`);
         throw new Error(err);
       }
+
+
     } else {
       debug("adding non-student");
-    const defaultRole = this.resolveRole("non-student");
-          try {
+      const externalRole = this.resolveRole(process.env.DISCORD_EXTERNAL_ROLE);
+      let nonMemberRoles = [externalRole.id]
+      if (process.env.DISCORD_AUTOMEMBER_EXTERNAL == 1) {
+        nonMemberRoles.push(memberRole.id);
+      }
+      try {
         guildMember = await guild.addMember(discordUser, {
           accessToken,
           nick,
-          roles: [defaultRole.id],
+          roles: nonMemberRoles,
         });
 
         try {
-          await spawnerChannel.send(`${discordUser}, it appears you are a manually generated user and did not login with google. `
-            + "If you are a student, teacher, or staff with a google @RADACTED or @RADACTED account, please unlink and login using the google account. "
-            + "If this is intentional and need manual verification or are having trouble logging in using your regular user that you logged in manually, "
-            + "please open a ticket in <#767187188181368864>.")
+          if (process.env.DISCORD_AUTOMEMBER_EXTERNAL == 1) {
+            await spawnerChannel.send(`${discordUser}, you have been verified and given the member role. However, it appears you are outside of the organization, and as such have been given the ${externalRole.name}.`);
+          } else {
+            await spawnerChannel.send(`${discordUser}, it appears you are a manually generated user and did not login with google. `
+                + `If you are a student, teacher, or staff with a google @${process.env.DISCORD_STUDENT_EMAIL_DOMAIN} or @${process.env.DISCORD_NONSTUDENT_EMAIL_DOMAIN} account, please unlink and login using the google account. `
+                + "If this is intentional and need manual verification or are having trouble logging in using your regular user that you logged in manually, "
+                + `${process.env.DISCORD_MANUAL_VERIFICATION_SUPPORT}.`)
+          }
         } catch (err) {
-          debug(`An error occured while sending message in the guild: ${err}`)
+          debug(`An error occurred while sending message in the guild: ${err}`)
         }
 
       } catch (err) {
-        debug(`An error occured while adding user to the guild: ${err}`);
+        debug(`An error occurred while adding user to the guild: ${err}`);
         throw new Error(err);
       }
     }
-    
 
     return guildMember;
   }
