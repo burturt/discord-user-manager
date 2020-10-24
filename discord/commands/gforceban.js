@@ -36,7 +36,7 @@ module.exports = {
           const discordUser = message.guild.members.cache.get(user2.discordId);
           discordName = discordUser.user.username;
           discordId = discordUser.id;
-          discordUser.kick('Kicked using banman command')
+          discordUser.kick('Kicked using gbanman command')
               .then(() => {
                 // We let the message author know we were able to kick the person
                 message.reply(`Found linked discord account and kicked ${discordName} (ID ${discordId}) from the discord.`);
@@ -45,7 +45,10 @@ module.exports = {
             // An error happened
             // This is generally due to the bot not being able to kick the member,
             // either due to missing permissions or role hierarchy
-            message.reply(`An error occured while attempting to kick user from discord: ${err}`);
+              if (err.toString() === "TypeError: Cannot read property 'update' of null") {
+                  return message.reply("That username does not exist in the database.");
+              }
+            message.reply(`An error occurred while attempting to kick user from discord: ${err}`);
           });
       		} catch {
       			message.reply("The user does not appear to be in the Discord server");
@@ -53,8 +56,8 @@ module.exports = {
           	
           
         }).catch((err) => {
-        debug(`An error occured while banning manually: ${err}`);
-        return message.reply(`An error occured while banning user in database: ${err}`);
+        debug(`An error occurred while banning manually: ${err}`);
+        return message.reply(`An error occurred while banning user in database: ${err}`);
       });
        DiscordAdapter.logInfo(`${args[0]} has been banned by ${message.author} for ${reason}`);
 

@@ -28,6 +28,9 @@ module.exports = {
           })          	
           
         }).catch((err) => {
+        if (err.toString() === "TypeError: Cannot read property 'update' of null") {
+            return message.reply("That username does not exist in the database.");
+        }
         debug(`An error occured while unbanning the user: ${err}`);
         return message.reply(`An error occured while unbanning the user: ${err}`);
       });
