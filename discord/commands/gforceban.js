@@ -40,28 +40,29 @@ module.exports = {
               .then(() => {
                 // We let the message author know we were able to kick the person
                 message.reply(`Found linked discord account and kicked ${discordName} (ID ${discordId}) from the discord.`);
+
           })
           .catch(err => {
             // An error happened
             // This is generally due to the bot not being able to kick the member,
             // either due to missing permissions or role hierarchy
-              if (err.toString() === "TypeError: Cannot read property 'update' of null") {
-                  return message.reply("That username does not exist in the database.");
-              }
             message.reply(`An error occurred while attempting to kick user from discord: ${err}`);
           });
       		} catch {
       			message.reply("The user does not appear to be in the Discord server");
       		}
-          	
+            DiscordAdapter.logInfo(`${args[0]} has been banned by ${message.author} for ${reason}`);
+
+            return message.reply(`Successfully banned ${args[0]}`);
           
         }).catch((err) => {
+        if (err.toString() === "TypeError: Cannot read property 'update' of null") {
+            return message.reply("That username does not exist in the database.");
+        }
         debug(`An error occurred while banning manually: ${err}`);
         return message.reply(`An error occurred while banning user in database: ${err}`);
       });
-       DiscordAdapter.logInfo(`${args[0]} has been banned by ${message.author} for ${reason}`);
 
-       return message.reply(`Successfully banned ${args[0]}`);
 
 
   },
