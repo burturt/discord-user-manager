@@ -25,7 +25,10 @@ module.exports = {
           user2.update({
             isBanned: false,
             banReason: "Not banned"
-          })          	
+          })
+
+            DiscordAdapter.logInfo(`${args[0]} has been unbanned by ${message.author}`);
+            return message.reply(`Successfully unbanned ${args[0]}`);
           
         }).catch((err) => {
         if (err.toString() === "TypeError: Cannot read property 'update' of null") {
