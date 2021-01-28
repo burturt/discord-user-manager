@@ -13,7 +13,8 @@ const settings = require("./settings");
 const csurf = require('csurf');
 
 const csrfMiddleware = csurf({
-  cookie: true
+  cookie: true,
+  sameSite: true
 });
 
 // initalize Sequelize with session store
